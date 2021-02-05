@@ -13,7 +13,6 @@ public final class GraphView extends JPanel {
     private static final Stroke graphStroke = new BasicStroke(2f);
     private ArrayList<City> cities = new ArrayList<City>();
     private Pair<Integer,Integer> X_YGrids;
-    private Graphics2D graphics2D;
 
     public GraphView() {
         setPreferredSize(new Dimension( 500, 500));
@@ -34,7 +33,6 @@ public final class GraphView extends JPanel {
             return;
         }
         final Graphics2D g = (Graphics2D) graphics;
-        graphics2D = g;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         final int length = cities.size();
@@ -72,29 +70,6 @@ public final class GraphView extends JPanel {
                 g.fillOval(x, y, pointWidth, pointWidth);
             }
         }
-    }
-
-    public void drawLines(Graphics2D g, List<City> cities) {
-        g.setColor(lineColor);
-        g.setStroke(new BasicStroke(2f));
-        new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                for (int i = 0; i < cities.size() - 1; i++) {
-                    final int x1 = cities.get(i).getX();
-                    final int y1 = cities.get(i).getY();
-                    final int x2 = cities.get(i + 1).getX();
-                    final int y2 = cities.get(i + 1).getY();
-                    g.drawLine(x1, y1, x2, y2);
-                    System.out.println("draw line "+ i);
-                }
-                return null;
-            }
-        };
-
-    }
-    public Graphics2D getGraphics2D() {
-        return graphics2D;
     }
 }
 

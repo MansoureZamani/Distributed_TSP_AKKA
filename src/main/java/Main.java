@@ -1,6 +1,5 @@
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.actor.Props;
 import javafx.util.Pair;
 
 import javax.swing.*;
@@ -60,44 +59,27 @@ public class Main {
         JFrame frame = new JFrame("TSP Solver");
         graphView.setX_YGrids(bestDivisor);
         graphView.setCities(cities);
-        drawLines.setCities(cities);
-        createAndShowGui(graphView,drawLines,frame);
+
+        Graphics graphics = createAndShowGui(graphView,drawLines,frame);
         Map<String,ActorRef> actors = new HashMap<>();
         ActorSystem system = ActorSystem.create("actor-system");
+        ActorRef masterRef = system.actorOf(
+                MasterActor.props(graphics, drawLines, frame,sectionNumbers), "master");
         for (Map.Entry<String, List<City>> entry : zoning.entrySet()) {
-            ActorRef readingActorRef = system.actorOf(MyActor.props(system,graphView,drawLines,
-                                                                    frame),
-                                                      entry.getKey());
+            ActorRef readingActorRef = system.actorOf(
+                    CalculationActor.props(masterRef, graphics, drawLines,
+                                           frame), entry.getKey());
             actors.put(entry.getKey(), readingActorRef);
-        }
-
-        for (int i = 1; i <= bestDivisor.getKey(); i++) {
-            for (int j = 1; j <= bestDivisor.getValue(); j++) {
-                ActorRef current = actors.get("Area_"+i+"_"+j);
-                ActorRef neighbour = null;
-                if(i<=j) {
-                    if (actors.containsKey("Area_" + i + "_" + (j + 1)))
-                        neighbour = actors.get("Area_" + i + "_" + (j + 1));
-                    else if (actors.containsKey("Area_" + (i + 1) + "_" + j))
-                        neighbour = actors.get("Area_" + (i + 1) + "_" + j);
-                }else {
-                    if (actors.containsKey("Area_" + i + "_" + (j-1)))
-                        neighbour = actors.get("Area_" + (i) + "_" + (j-1));
-                    else if (actors.containsKey("Area_" + (i - 1) + "_" + j))
-                        neighbour = actors.get("Area_" + (i - 1) + "_" + j);
-                }
-                current.tell(new Pair(zoning.get("Area_"+i+"_"+j),neighbour),ActorRef.noSender());
-            }
-
-
+            readingActorRef.tell(new Pair(entry.getValue(),masterRef),ActorRef.noSender());
         }
     }
 
-    private static void createAndShowGui(GraphView graphView ,DrawLines drawLines, JFrame frame) {
+    private static Graphics createAndShowGui(GraphView graphView , DrawLines drawLines, JFrame frame) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(graphView);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        return frame.getGraphics();
     }
 }
