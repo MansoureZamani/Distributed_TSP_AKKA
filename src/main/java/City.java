@@ -2,6 +2,7 @@ public class City {
     private int x;
     private int y;
     private String cityName;
+    private final int frameSize = 1000;
 
     public City(String cityName, int x, int y){
         this.cityName = cityName;
@@ -11,8 +12,8 @@ public class City {
 
 
     public City(String cityName) {
-        this.x = (int) (Math.random() * 500);
-        this.y = (int) (Math.random() * 500);
+        this.x = (int) (Math.random() * frameSize);
+        this.y = (int) (Math.random() * frameSize);
         this.cityName = cityName;
     }
 

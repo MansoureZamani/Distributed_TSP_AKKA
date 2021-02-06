@@ -33,21 +33,22 @@ public class MasterActor extends AbstractLoggingActor {
                     cities.add(r);
                     if(cities.size() == sectionNumbers)
                     {
+                        drawLines.setLineColor( new Color(102, 231, 11, 180));
                         for (int i = 0; i < cities.size()-1; i++) {
                             //draw line
                             System.out.println(cities.get(i).getValue().getCityName()+" -> "+
                                                        cities.get(i+1).getKey().getCityName());
-//                            drawLines.setCityPair(new Pair<>(cities.get(i).getValue(),
-//                                                             cities.get(i+1).getValue()));
-//                            drawLines.paint(graphics);
-//                            drawLines.repaint();
+                            drawLines.setCityPair(new Pair<>(cities.get(i).getValue(),
+                                                             cities.get(i+1).getKey()));
+                            drawLines.paint(graphics);
+                            drawLines.repaint();
                         }
                         System.out.println(cities.get(cities.size()-1).getValue().getCityName()+
                                                    " -> "+ cities.get(0).getKey().getCityName());
-//                        drawLines.setCityPair(new Pair<>(cities.get(cities.size()-1).getValue(),
-//                                                         cities.get(0).getKey()));
-//                        drawLines.paint(graphics);
-//                        drawLines.repaint();
+                        drawLines.setCityPair(new Pair<>(cities.get(cities.size()-1).getValue(),
+                                                         cities.get(0).getKey()));
+                        drawLines.paint(graphics);
+                        drawLines.repaint();
 
                     }
               }).build();

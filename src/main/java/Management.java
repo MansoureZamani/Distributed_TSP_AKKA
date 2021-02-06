@@ -9,6 +9,7 @@ public class Management {
 
     private int cityNumbers;
     private int sectionNumbers;
+    private final int frameSize = 1000;
 
     public Management(int cityNumbers, int sectionNumbers) {
         this.cityNumbers = cityNumbers;
@@ -34,8 +35,8 @@ public class Management {
     public Map<String,List<City>> partitionCities(List<City> cities){
         Map<String,List<City>> Zoning = new HashMap<>();
         Pair<Integer, Integer> bestX_Y = findBestDivisors();
-        int xPartitions = 500/bestX_Y.getKey();
-        int yPartitions = 500/bestX_Y.getValue();
+        int xPartitions = frameSize/bestX_Y.getKey();
+        int yPartitions = frameSize/bestX_Y.getValue();
         for (int i = 1; i <= bestX_Y.getKey(); i++) {
             for (int j = 1; j <= bestX_Y.getValue(); j++) {
                 Zoning.put("Area_"+i+"_"+j,new ArrayList<City>());

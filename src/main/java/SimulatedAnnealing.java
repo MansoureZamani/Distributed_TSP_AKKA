@@ -1,7 +1,14 @@
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimulatedAnnealing {
+    private Pair<City, City> first_last ;
+
+    public Pair<City, City> getFirst_last() {
+        return first_last;
+    }
 
     public Tour calculationOptimalDistance(List<City> cities) {
         //Set initial temp
@@ -15,7 +22,6 @@ public class SimulatedAnnealing {
         currentSolution.generateIndividual();
 
         System.out.println("Total distance of initial solution: " + currentSolution.getTotalDistance());
-        System.out.println("Tour: " + currentSolution);
 
         // We would like to keep track if the best solution
         // Assume best solution is the current solution
@@ -62,6 +68,9 @@ public class SimulatedAnnealing {
 
 //        System.out.println("Final solution distance: " + best.getTotalDistance());
 //        System.out.println("Tour: " + best);
+        first_last = new Pair(best.getCity(0),best.getCity(
+                best.tourSize()-1));
+        System.out.println("best Tour: " + best);
         return best;
     }
 }

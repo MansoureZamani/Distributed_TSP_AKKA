@@ -32,14 +32,15 @@ public class CalculationActor extends AbstractLoggingActor {
                     System.out.println(this.getSelf() + " : "+ r.getKey().size());
                     SimulatedAnnealing sa = new SimulatedAnnealing();
                     Tour tour = sa.calculationOptimalDistance(r.getKey());
+                    drawLines.setLineColor( new Color(44, 102, 230, 180));
                     for (int i = 0; i < tour.tourSize()-1 ; i++) {
                         drawLines.setCityPair(new Pair<>(tour.getCity(i), tour.getCity(i+1)));
                         drawLines.paint(graphics);
                         drawLines.repaint();
                     }
-                    Pair<City, City> first_last = new Pair(tour.getCity(0),tour.getCity(
-                            tour.tourSize()-1));
-                    master.tell(first_last, this.getSelf());
+//                    Pair<City, City> first_last = new Pair(tour.getCity(0),tour.getCity(
+//                            tour.tourSize()-1));
+                    master.tell(sa.getFirst_last(), this.getSelf());
                 }).build();
     }
     public static Props props(ActorRef master,Graphics graphics, DrawLines drawLines,

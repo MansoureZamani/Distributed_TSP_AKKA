@@ -3,15 +3,18 @@ import java.awt.*;
 
 public final class DrawLines extends Component {
 
-    private final static Color lineColor = new Color(44, 102, 230, 180);
+    private Color lineColor;
+
+    private final int frameSize = 1000;
     private Pair<City, City> cityPair;
 
     public void setCityPair(Pair<City, City> cityPair) {
         this.cityPair = cityPair;
     }
+    public void setLineColor(Color lineColor) { this.lineColor = lineColor; }
 
     public DrawLines() {
-        setPreferredSize(new Dimension( 500, 500));
+        setPreferredSize(new Dimension( frameSize, frameSize));
     }
     public void paint(Graphics graphics) {
         final Graphics2D g = (Graphics2D) graphics;

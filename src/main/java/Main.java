@@ -53,6 +53,7 @@ public class Main {
         Management manger = new Management(cityNumbers,sectionNumbers);
         List<City> cities = manger.initialRandomCities();
         Map<String,List<City>> zoning = manger.partitionCities(cities);
+
         GraphView graphView = new GraphView();
         DrawLines drawLines = new DrawLines();
         Pair<Integer, Integer> bestDivisor = manger.findBestDivisors();
